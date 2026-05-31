@@ -131,6 +131,21 @@ Or from Emacs Lisp:
    fixture.
 5. Use `cmark-gfm` only as a development oracle, not as a runtime dependency.
 
+## License
+
+The Emacs Lisp implementation is released under the MIT License.  See
+`LICENSE`.
+
+Some test cases and smoke fixtures include Markdown input and expected HTML
+adapted from the CommonMark and GitHub Flavored Markdown specifications.  Those
+specification-derived examples remain under their original specification
+licenses, primarily Creative Commons Attribution-ShareAlike 4.0 International.
+See `NOTICE` and `test/README.md` for attribution and details.
+
+The full upstream CommonMark/GFM spec files are not vendored in this
+repository.  `make gfm-full-spec` expects a local external copy of cmark-gfm's
+`test/spec.txt`.
+
 ## Public API
 
 - `commonmark-gfm-parse`

@@ -1,6 +1,11 @@
 ;;; commonmark-gfm-test.el --- Tests for commonmark-gfm -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2026  kn66
+;; SPDX-License-Identifier: MIT
+;;
+;; Some test examples are adapted from the CommonMark and GFM specs.  See
+;; ../NOTICE and README.md in this directory for attribution and licensing
+;; notes for those examples.
 
 ;; This file is not part of GNU Emacs.
 

@@ -1,6 +1,7 @@
 ;;; commonmark-gfm.el --- CommonMark/GFM renderer in Emacs Lisp -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2026  kn66
+;; SPDX-License-Identifier: MIT
 
 ;; Author: kn66
 ;; Version: 0.1.0

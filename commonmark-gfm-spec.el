@@ -1,6 +1,7 @@
 ;;; commonmark-gfm-spec.el --- Spec test helpers for commonmark-gfm -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2026  kn66
+;; SPDX-License-Identifier: MIT
 
 ;; This file is not part of GNU Emacs.
 

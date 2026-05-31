@@ -1,6 +1,7 @@
 ;;; commonmark-gfm-block.el --- Block parsing for commonmark-gfm -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2026  kn66
+;; SPDX-License-Identifier: MIT
 
 ;; This file is not part of GNU Emacs.
 

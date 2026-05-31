@@ -1,0 +1,34 @@
+commonmark-gfm.el licensing notices
+===================================
+
+The Emacs Lisp implementation in this repository is released under the MIT
+License.  See LICENSE.
+
+No implementation source code from cmark, cmark-gfm, commonmark.js, or other
+Markdown parser implementations is vendored in this package.
+
+Specification-derived test material
+-----------------------------------
+
+Some tests and smoke fixtures include Markdown input and expected HTML output
+adapted from the CommonMark and GitHub Flavored Markdown specifications.
+Those specification texts and examples are not relicensed by this repository.
+
+CommonMark Spec
+Copyright (C) 2014-2024 John MacFarlane and contributors.
+Licensed under the Creative Commons Attribution-ShareAlike 4.0 International
+License.
+Source: https://spec.commonmark.org/
+License: https://creativecommons.org/licenses/by-sa/4.0/
+
+GitHub Flavored Markdown Spec / cmark-gfm test/spec.txt
+Based on the CommonMark Spec by John MacFarlane and extended by GitHub.
+The cmark-gfm COPYING file identifies test/spec.txt as released under
+Creative Commons Attribution-ShareAlike 4.0 International.
+Source: https://github.github.com/gfm/
+Source: https://github.com/github/cmark-gfm
+License: https://creativecommons.org/licenses/by-sa/4.0/
+
+The full upstream specification files are intentionally not vendored here.
+Development commands such as `make gfm-full-spec` expect a local path to an
+external copy of cmark-gfm's spec.txt.
