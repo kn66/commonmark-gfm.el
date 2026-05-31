@@ -1,0 +1,26 @@
+[
+  {
+    "example": 1,
+    "section": "Smoke",
+    "markdown": "# Hello\n",
+    "html": "<h1>Hello</h1>\n"
+  },
+  {
+    "example": 2,
+    "section": "Smoke",
+    "markdown": "- one\n- two\n",
+    "html": "<ul>\n<li>one</li>\n<li>two</li>\n</ul>\n"
+  },
+  {
+    "example": 3,
+    "section": "Smoke",
+    "markdown": "[ref]: /url \"Title\"\n\nA [link][ref].\n",
+    "html": "<p>A <a href=\"/url\" title=\"Title\">link</a>.</p>\n"
+  },
+  {
+    "example": 4,
+    "section": "Smoke",
+    "markdown": "| a | b |\n|---|---:|\n| c | d |\n",
+    "html": "<table>\n<thead>\n<tr>\n<th>a</th>\n<th align=\"right\">b</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>c</td>\n<td align=\"right\">d</td>\n</tr>\n</tbody>\n</table>\n"
+  }
+]

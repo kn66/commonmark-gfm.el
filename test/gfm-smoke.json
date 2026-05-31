@@ -1,0 +1,50 @@
+[
+  {
+    "example": 1,
+    "section": "GFM table escaped pipes",
+    "markdown": "| f\\|oo  |\n| ------ |\n| b `\\|` az |\n| b **\\|** im |\n",
+    "html": "<table>\n<thead>\n<tr>\n<th>f|oo</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>b <code>|</code> az</td>\n</tr>\n<tr>\n<td>b <strong>|</strong> im</td>\n</tr>\n</tbody>\n</table>\n"
+  },
+  {
+    "example": 2,
+    "section": "GFM table row width",
+    "markdown": "| abc | def |\n| --- | --- |\n| bar |\n| bar | baz | boo |\n",
+    "html": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>bar</td>\n<td></td>\n</tr>\n<tr>\n<td>bar</td>\n<td>baz</td>\n</tr>\n</tbody>\n</table>\n"
+  },
+  {
+    "example": 3,
+    "section": "GFM task list",
+    "markdown": "- [ ] foo\n- [x] bar\n",
+    "html": "<ul>\n<li><input disabled=\"\" type=\"checkbox\"> foo</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> bar</li>\n</ul>\n"
+  },
+  {
+    "example": 4,
+    "section": "GFM nested task list",
+    "markdown": "- [x] foo\n  - [ ] bar\n  - [x] baz\n- [ ] bim\n",
+    "html": "<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> foo\n<ul>\n<li><input disabled=\"\" type=\"checkbox\"> bar</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> baz</li>\n</ul>\n</li>\n<li><input disabled=\"\" type=\"checkbox\"> bim</li>\n</ul>\n"
+  },
+  {
+    "example": 5,
+    "section": "GFM strikethrough",
+    "markdown": "~~Hi~~ Hello, ~there~ world!\n\nThis will ~~~not~~~ strike.\n",
+    "html": "<p><del>Hi</del> Hello, <del>there</del> world!</p>\n<p>This will ~~~not~~~ strike.</p>\n"
+  },
+  {
+    "example": 6,
+    "section": "GFM autolink path validation",
+    "markdown": "www.google.com/search?q=Markup+(business)))\n\nwww.google.com/search?q=commonmark&hl=en\n\nwww.google.com/search?q=commonmark&hl;\n\nwww.commonmark.org/he<lp\n",
+    "html": "<p><a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a>))</p>\n<p><a href=\"http://www.google.com/search?q=commonmark&amp;hl=en\">www.google.com/search?q=commonmark&amp;hl=en</a></p>\n<p><a href=\"http://www.google.com/search?q=commonmark\">www.google.com/search?q=commonmark</a>&amp;hl;</p>\n<p><a href=\"http://www.commonmark.org/he\">www.commonmark.org/he</a>&lt;lp</p>\n"
+  },
+  {
+    "example": 7,
+    "section": "GFM autolink email validation",
+    "markdown": "Anonymous FTP is available at ftp://foo.bar.baz.\n\na.b-c_d@a.b\n\na.b-c_d@a.b.\n\na.b-c_d@a.b-\n\na.b-c_d@a.b_\n",
+    "html": "<p>Anonymous FTP is available at <a href=\"ftp://foo.bar.baz\">ftp://foo.bar.baz</a>.</p>\n<p><a href=\"mailto:a.b-c_d@a.b\">a.b-c_d@a.b</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">a.b-c_d@a.b</a>.</p>\n<p>a.b-c_d@a.b-</p>\n<p>a.b-c_d@a.b_</p>\n"
+  },
+  {
+    "example": 8,
+    "section": "GFM tagfilter",
+    "markdown": "<strong> <title> <style> <em>\n\n<script>alert(1)</script>\n",
+    "html": "<p><strong> &lt;title> &lt;style> <em></p>\n&lt;script>alert(1)&lt;/script>\n"
+  }
+]
