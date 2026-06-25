@@ -95,6 +95,14 @@
                 (commonmark-gfm-html-escape-attribute language))
       "")))
 
+(defun commonmark-gfm-html--code-language (node)
+  "Return the first word of NODE's code block info string, or nil."
+  (car (split-string (commonmark-gfm-node-attr node 'info "") "[ \t]+" t)))
+
+(defun commonmark-gfm-html--mermaid-code-block-p (node)
+  "Return non-nil when NODE is a Mermaid fenced code block."
+  (string= (commonmark-gfm-html--code-language node) "mermaid"))
+
 (defun commonmark-gfm-html--tagfilter (html)
   "Apply the GFM tagfilter extension to raw HTML."
   (if (not commonmark-gfm-enable-gfm)
@@ -234,10 +242,13 @@
                (commonmark-gfm-html--render-children node)
                level)))
     ('code-block
-     (format "<pre><code%s>%s</code></pre>\n"
-             (commonmark-gfm-html--code-class node)
-             (commonmark-gfm-html-escape
-              (commonmark-gfm-node-literal node))))
+     (let ((literal (commonmark-gfm-html-escape
+                     (commonmark-gfm-node-literal node))))
+       (if (commonmark-gfm-html--mermaid-code-block-p node)
+           (format "<div class=\"mermaid\">%s</div>\n" literal)
+         (format "<pre><code%s>%s</code></pre>\n"
+                 (commonmark-gfm-html--code-class node)
+                 literal))))
     ('html-block
      (commonmark-gfm-html--tagfilter
       (or (commonmark-gfm-node-literal node) "")))

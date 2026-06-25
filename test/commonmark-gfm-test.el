@@ -100,6 +100,11 @@
    "```elisp\n(+ 1 2)\n```\n"
    "<pre><code class=\"language-elisp\">(+ 1 2)\n</code></pre>\n"))
 
+(ert-deftest commonmark-gfm-render-mermaid-code-fence ()
+  (commonmark-gfm-test--renders
+   "```mermaid\ngraph TD\n  A --> B\n```\n"
+   "<div class=\"mermaid\">graph TD\n  A --&gt; B\n</div>\n"))
+
 (ert-deftest commonmark-gfm-render-commonmark-block-regressions ()
   (dolist
       (case
