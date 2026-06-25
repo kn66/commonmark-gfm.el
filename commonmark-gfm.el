@@ -35,6 +35,34 @@
   :type 'boolean
   :group 'commonmark-gfm)
 
+(defcustom commonmark-gfm-html-include-default-css nil
+  "Whether `commonmark-gfm-render-to-html' includes the default CSS.
+The default is nil so rendered output remains a plain HTML fragment unless
+styling is explicitly requested."
+  :type 'boolean
+  :group 'commonmark-gfm)
+
+(defcustom commonmark-gfm-html-user-css nil
+  "Additional CSS included by `commonmark-gfm-render-to-html'.
+When non-nil, this string is inserted after the optional default CSS inside a
+single style block."
+  :type '(choice (const :tag "No additional CSS" nil)
+                 string)
+  :group 'commonmark-gfm)
+
+(defcustom commonmark-gfm-html-include-mermaid-script nil
+  "Whether `commonmark-gfm-render-to-html' includes Mermaid.js initialization.
+The default is nil so rendering never loads remote JavaScript unless explicitly
+requested."
+  :type 'boolean
+  :group 'commonmark-gfm)
+
+(defcustom commonmark-gfm-html-mermaid-script-url
+  "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs"
+  "Mermaid.js ES module URL used by `commonmark-gfm-render-to-html'."
+  :type 'string
+  :group 'commonmark-gfm)
+
 (defvar markdown-command)
 (defvar markdown-command-needs-filename)
 
@@ -43,6 +71,30 @@
   (if (plist-member options :gfm)
       (plist-get options :gfm)
     commonmark-gfm-enable-gfm))
+
+(defun commonmark-gfm--html-include-default-css-p (options)
+  "Return whether default CSS should be included for OPTIONS."
+  (if (plist-member options :html-include-default-css)
+      (plist-get options :html-include-default-css)
+    commonmark-gfm-html-include-default-css))
+
+(defun commonmark-gfm--html-user-css (options)
+  "Return user CSS for OPTIONS."
+  (if (plist-member options :html-user-css)
+      (plist-get options :html-user-css)
+    commonmark-gfm-html-user-css))
+
+(defun commonmark-gfm--html-include-mermaid-script-p (options)
+  "Return whether Mermaid.js initialization should be included for OPTIONS."
+  (if (plist-member options :html-include-mermaid-script)
+      (plist-get options :html-include-mermaid-script)
+    commonmark-gfm-html-include-mermaid-script))
+
+(defun commonmark-gfm--html-mermaid-script-url (options)
+  "Return Mermaid.js URL for OPTIONS."
+  (if (plist-member options :html-mermaid-script-url)
+      (plist-get options :html-mermaid-script-url)
+    commonmark-gfm-html-mermaid-script-url))
 
 ;;;###autoload
 (defun commonmark-gfm-parse (markdown &optional options)
@@ -55,9 +107,19 @@ OPTIONS is reserved for future compatibility controls."
 ;;;###autoload
 (defun commonmark-gfm-render-to-html (markdown &optional options)
   "Render MARKDOWN to HTML.
-OPTIONS is reserved for future compatibility controls."
+OPTIONS may include `:gfm', `:html-include-default-css', and
+`:html-user-css', `:html-include-mermaid-script', and
+`:html-mermaid-script-url'."
   (let ((commonmark-gfm-enable-gfm
-         (commonmark-gfm--gfm-enabled-p options)))
+         (commonmark-gfm--gfm-enabled-p options))
+        (commonmark-gfm-html-include-default-css
+         (commonmark-gfm--html-include-default-css-p options))
+        (commonmark-gfm-html-user-css
+         (commonmark-gfm--html-user-css options))
+        (commonmark-gfm-html-include-mermaid-script
+         (commonmark-gfm--html-include-mermaid-script-p options))
+        (commonmark-gfm-html-mermaid-script-url
+         (commonmark-gfm--html-mermaid-script-url options)))
     (commonmark-gfm-html-render (commonmark-gfm-parse markdown options))))
 
 ;;;###autoload

@@ -65,6 +65,17 @@ Programmatic rendering:
 
 ;; Disable GFM extensions when checking pure CommonMark behavior.
 (commonmark-gfm-render-to-html "https://example.com\n" '(:gfm nil))
+
+;; Include the conservative default CSS in the returned HTML fragment.
+(commonmark-gfm-render-to-html "# Hello\n" '(:html-include-default-css t))
+
+;; Or provide caller-owned CSS without enabling the default CSS.
+(commonmark-gfm-render-to-html "# Hello\n" '(:html-user-css "h1 { color: red; }"))
+
+;; Include Mermaid.js from the configured CDN for browser-side diagram rendering.
+(commonmark-gfm-render-to-html
+ "```mermaid\ngraph TD\n  A --> B\n```\n"
+ '(:html-include-mermaid-script t))
 ```
 
 ## Development

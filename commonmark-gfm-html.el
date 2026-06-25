@@ -18,8 +18,111 @@
 (defvar commonmark-gfm-enable-gfm t
   "Whether GFM-specific HTML rendering extensions are enabled.")
 
+(defvar commonmark-gfm-html-include-default-css nil
+  "Whether `commonmark-gfm-html-render' includes the default CSS.")
+
+(defvar commonmark-gfm-html-user-css nil
+  "Additional CSS included by `commonmark-gfm-html-render'.")
+
+(defvar commonmark-gfm-html-include-mermaid-script nil
+  "Whether `commonmark-gfm-html-render' includes Mermaid.js initialization.")
+
+(defvar commonmark-gfm-html-mermaid-script-url
+  "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs"
+  "Mermaid.js ES module URL used by `commonmark-gfm-html-render'.")
+
 (defvar commonmark-gfm-html--parent-inline-type nil
   "Inline node type currently rendering this node's children.")
+
+(defconst commonmark-gfm-html-default-css
+  "body {
+  color: #1f2328;
+  background: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;
+  line-height: 1.6;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.25;
+  margin: 1.6em 0 0.65em;
+}
+
+h1, h2 {
+  border-bottom: 1px solid #d0d7de;
+  padding-bottom: 0.3em;
+}
+
+p, blockquote, ul, ol, table, pre {
+  margin: 0 0 1em;
+}
+
+a {
+  color: #0969da;
+}
+
+blockquote {
+  color: #57606a;
+  border-left: 4px solid #d0d7de;
+  padding-left: 1em;
+}
+
+code {
+  background: #f6f8fa;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, \"Liberation Mono\", monospace;
+  font-size: 0.92em;
+  padding: 0.12em 0.35em;
+}
+
+pre {
+  background: #f6f8fa;
+  border-radius: 6px;
+  overflow: auto;
+  padding: 16px;
+}
+
+pre code {
+  background: transparent;
+  border-radius: 0;
+  display: block;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  width: max-content;
+  max-width: 100%;
+}
+
+th, td {
+  border: 1px solid #d0d7de;
+  padding: 6px 13px;
+}
+
+th {
+  background: #f6f8fa;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background: #f6f8fa;
+}
+
+input[type=\"checkbox\"] {
+  margin-right: 0.35em;
+}
+
+.mermaid {
+  margin: 1.25em 0;
+  text-align: center;
+}
+"
+  "Default CSS optionally included in rendered HTML.")
 
 (defconst commonmark-gfm-html--tagfilter-tags
   '("title" "textarea" "style" "xmp" "iframe" "noembed" "noframes" "script"
@@ -70,6 +173,37 @@
   (mapconcat #'commonmark-gfm-html-render
              (commonmark-gfm-node-children node)
              ""))
+
+(defun commonmark-gfm-html--style-block ()
+  "Return optional CSS style block for rendered documents."
+  (let* ((default-css (and commonmark-gfm-html-include-default-css
+                           commonmark-gfm-html-default-css))
+         (css (string-join
+               (delq nil (list default-css commonmark-gfm-html-user-css))
+               "\n")))
+    (if (string-empty-p css)
+        ""
+      (format "<style>\n%s</style>\n" css))))
+
+(defun commonmark-gfm-html--javascript-string (text)
+  "Return TEXT escaped for a double-quoted JavaScript string."
+  (let ((text (or text "")))
+    (setq text (replace-regexp-in-string "\\\\" "\\\\\\\\" text t t))
+    (setq text (replace-regexp-in-string "\"" "\\\\\"" text t t))
+    (setq text (replace-regexp-in-string "\n" "\\\\n" text t t))
+    (replace-regexp-in-string "\r" "\\\\r" text t t)))
+
+(defun commonmark-gfm-html--mermaid-script-block ()
+  "Return optional Mermaid.js script block for rendered documents."
+  (if (not commonmark-gfm-html-include-mermaid-script)
+      ""
+    (format
+     (concat "<script type=\"module\">\n"
+             "import mermaid from \"%s\";\n"
+             "mermaid.initialize({ startOnLoad: true });\n"
+             "</script>\n")
+     (commonmark-gfm-html--javascript-string
+      commonmark-gfm-html-mermaid-script-url))))
 
 (defun commonmark-gfm-html--plain-text (nodes)
   "Render NODES as plain text for image alt attributes."
@@ -231,7 +365,9 @@
   "Render AST NODE to HTML."
   (pcase (commonmark-gfm-node-type node)
     ('document
-     (commonmark-gfm-html--render-children node))
+     (concat (commonmark-gfm-html--style-block)
+             (commonmark-gfm-html--render-children node)
+             (commonmark-gfm-html--mermaid-script-block)))
     ('paragraph
      (format "<p>%s</p>\n"
              (commonmark-gfm-html--render-children node)))

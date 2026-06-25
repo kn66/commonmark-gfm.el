@@ -100,6 +100,47 @@
    "```elisp\n(+ 1 2)\n```\n"
    "<pre><code class=\"language-elisp\">(+ 1 2)\n</code></pre>\n"))
 
+(ert-deftest commonmark-gfm-render-default-css-option ()
+  (let ((html (commonmark-gfm-render-to-html
+               "# Styled\n"
+               '(:html-include-default-css t))))
+    (should (string-prefix-p "<style>\nbody {" html))
+    (should (string-suffix-p "<h1>Styled</h1>\n" html))))
+
+(ert-deftest commonmark-gfm-render-user-css-option ()
+  (should
+   (string=
+    "<style>\nh1 { color: red; }</style>\n<h1>Styled</h1>\n"
+    (commonmark-gfm-render-to-html
+     "# Styled\n"
+     '(:html-user-css "h1 { color: red; }")))))
+
+(ert-deftest commonmark-gfm-render-mermaid-script-option ()
+  (let ((html (commonmark-gfm-render-to-html
+               "```mermaid\ngraph TD\n  A --> B\n```\n"
+               '(:html-include-mermaid-script t))))
+    (should (string-match-p
+             "<div class=\"mermaid\">graph TD\n  A --&gt; B\n</div>\n"
+             html))
+    (should (string-suffix-p
+             (concat "<script type=\"module\">\n"
+                     "import mermaid from \"https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs\";\n"
+                     "mermaid.initialize({ startOnLoad: true });\n"
+                     "</script>\n")
+             html))))
+
+(ert-deftest commonmark-gfm-render-mermaid-script-url-option ()
+  (should
+   (string-suffix-p
+    (concat "<script type=\"module\">\n"
+            "import mermaid from \"https://example.com/mermaid.mjs\";\n"
+            "mermaid.initialize({ startOnLoad: true });\n"
+            "</script>\n")
+    (commonmark-gfm-render-to-html
+     "# Mermaid\n"
+     '(:html-include-mermaid-script t
+       :html-mermaid-script-url "https://example.com/mermaid.mjs")))))
+
 (ert-deftest commonmark-gfm-render-mermaid-code-fence ()
   (commonmark-gfm-test--renders
    "```mermaid\ngraph TD\n  A --> B\n```\n"
