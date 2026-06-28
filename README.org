@@ -65,7 +65,7 @@ HTML example.
 
 
 #+DOWNLOADED: screenshot @ 2026-06-26 07:20:27
-[[file:Screenshots/2026-06-26_07-20-27_screenshot.png]]
+[[Screenshots/2026-06-26_07-20-27_screenshot.png]]
 
 ** html
 :PROPERTIES:
@@ -74,7 +74,7 @@ HTML example.
 
 
 #+DOWNLOADED: screenshot @ 2026-06-26 07:22:54
-[[file:Screenshots/2026-06-26_07-22-54_screenshot.png]]
+[[Screenshots/2026-06-26_07-22-54_screenshot.png]]
 
 ** html (css + mermaid)
 :PROPERTIES:
@@ -82,7 +82,7 @@ HTML example.
 :END:
 
 #+DOWNLOADED: screenshot @ 2026-06-26 07:28:00
-[[file:Screenshots/2026-06-26_07-28-00_screenshot.png]]
+[[Screenshots/2026-06-26_07-28-00_screenshot.png]]
 
 * Usage
 
